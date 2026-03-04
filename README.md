@@ -64,4 +64,4 @@ Bibliothécaire --- Valider
 
 ### rendu du diagramme
 
-![usecase_diagram](../assets/usecase_diagram.png)
+![usecase_diagram](./assets/usecase_diagram.png)
