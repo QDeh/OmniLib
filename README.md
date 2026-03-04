@@ -4,7 +4,7 @@ Modélisation UML du projet OmniLib - portail unique capable de gérer à la foi
 
 ## Diagramme de cas d'utilisation
 
-### code du diagramme
+### Code du diagramme
 
 ```plantuml
 @startuml
@@ -62,6 +62,36 @@ Bibliothécaire --- Valider
 @enduml
 ```
 
-### rendu du diagramme
+### rendu du diagramme de cas d'utilisation
 
 ![usecase_diagram](./assets/usecase_diagram.png)
+
+## Diagramme d'activité 
+
+### Code du diagramme d'activités pour réserver un livre en ligne
+
+```plantuml
+@startuml
+start
+repeat
+    :Tentative de connexion;
+repeat while (Connexion réussie) is (non) not (oui)
+:Réserver un livre;
+if(L'adhérent à une pénalité de retard) then (oui)
+    :processus bloqué;
+    stop
+else(non)
+    if(Livraison à domicile) then (oui)
+        :Payer 5 euros; 
+    else(non)
+    endif
+    :Commande du livre;
+endif
+stop
+
+@enduml
+```
+
+### rendu du diagramme d'activités
+
+![usecase_diagram](./assets/activities_diagram.png)
