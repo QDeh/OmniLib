@@ -136,7 +136,7 @@ classDiagram
         -String name
         +emprunterLivre(Livre l, Adherent a)
         +reserverLivre(Livre l, Adherent a)
-        +bloquerAdherant(Adherent a)
+        +bloquerAdherent(Adherent a)
         +livrerDomicile(Adherent a)
         +telechargerEBook(EBook e, AdherentPremium a)
         +louerVOD(VOD v, AdherentPremium a)
@@ -180,11 +180,11 @@ class Article{
     }
     class ArticlePhysique{
         <<Abstract>>
-        +getAdherent() Adherent
+        +getPretAdherent() Adherent
     }
     class ArticleNumerique{
         <<Abstract>>
-        +getListAdherents() List Adherent
+        +getListPretAdherents() List Adherent
     }
     class Livre{
         -int codeBarre
