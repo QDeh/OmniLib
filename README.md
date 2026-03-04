@@ -79,13 +79,27 @@ start
 repeat
     :Tentative de connexion;
 repeat while (Connexion réussie) is (non) not (oui)
+if (livre disponible ?) then (oui)
+else (non)
+    stop
+end if
 :Réserver un livre;
-if(L'adhérent à une pénalité de retard) then (oui)
+if(pénalité de retard ?) then (oui)
     :processus bloqué;
     stop
 else(non)
-    if(Livraison à domicile) then (oui)
-        :Payer 5 euros; 
+    if(Livraison à domicile ?) then (oui)
+        repeat
+            if (payement réussi ?) then (oui)
+                break
+            else (non)
+        endif
+        repeat while (essais restants > 0) is (oui) not (non)
+        if (essais restants = 0 ?) then (oui)
+            stop
+        else (non)
+        endif
+    :prélèvement de 5 euros;
     else(non)
     endif
     :Commande du livre;
@@ -103,18 +117,20 @@ stop
 
 ```mermaid
 classDiagram
+    Adherent --|> Personne
+    Personne --o Bibliotheque
+    Bibliotheque --> Adherent : bloque, livre
+    Personne <|-- Bibliothecaire
+    Adherent --|> AdherentPremium
+    Adherent --> Article : emprunte (jusqu'à une date)
+    Bibliotheque o-- Article : met à disposition
+    ArticlePhysique --|> Article
+    ArticleNumerique --|> Article
+    Adherent --o ArticlePhysique : emprunteur (1) 
+    Adherent --o ArticleNumerique : emprunteurs (*) 
     Livre --|> ArticlePhysique
-    Article <|-- ArticlePhysique
-    Article <|-- ArticleNumerique
     ArticleNumerique <|-- EBook
     ArticleNumerique <|-- VOD
-    Personne <|-- Bibliothecaire
-    Adherent --|> Personne
-    AdherentPremium --|> Adherent
-    Bibliotheque o-- Personne
-    Bibliotheque o-- Article
-    ArticlePhysique o-- Personne : emprunteur (1) 
-    ArticleNumerique o-- Personne : emprunteurs (*) 
 
     class Bibliotheque{
         -String name
@@ -124,8 +140,8 @@ classDiagram
         +livrerDomicile(Adherent a)
         +telechargerEBook(EBook e, AdherentPremium a)
         +louerVOD(VOD v, AdherentPremium a)
-        +mettreAJour(Livre l, Bibliotecaire b)
-        +validerRetour(Livre l, Bibliotecaire b)
+        +mettreAJour(Livre l, Bibliothecaire b)
+        +validerRetour(Livre l, Bibliothecaire b)
 
     }
 
@@ -142,18 +158,18 @@ classDiagram
         -String adresse
         -boolean premium
         +getBloque() boolean
-        +isPremium()
+        +isPremium() boolean
 
     }
     class AdherentPremium{
         -int dateExpiration
-        +getDateExîration()
+        +getDateExpiration() int
     }
     class Bibliothecaire{
         -int codeEmployee
-        +getCodeEmployee()
+        +getCodeEmployee() int
     }
-    class Article{
+class Article{
         <<Abstract>>
         -String titre
         -String auteur
@@ -162,14 +178,13 @@ classDiagram
         +getAuteur() String
         +getDateParution() int
     }
-
     class ArticlePhysique{
         <<Abstract>>
-        +getAdherent()
+        +getAdherent() Adherent
     }
     class ArticleNumerique{
         <<Abstract>>
-        +getListAdherents()
+        +getListAdherents() List Adherent
     }
     class Livre{
         -int codeBarre
@@ -191,5 +206,4 @@ classDiagram
         +getDuree() int
         +getResolution() int
     }
-
 ```
