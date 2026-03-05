@@ -142,6 +142,7 @@ classDiagram
         +louerVOD(VOD v, AdherentPremium a)
         +mettreAJour(Livre l, Bibliothecaire b)
         +validerRetour(Livre l, Bibliothecaire b)
+        +rechercherArticle(String titre)
 
     }
 
