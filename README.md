@@ -22,6 +22,7 @@ actor "Bibliothécaire" as Bibliothecaire
 
 rectangle "OmniLib"{
     usecase "S'identifier" as Identifier
+    usecase "Créer un compte" as Creer
     usecase "Naviguer sur le portail" as Naviguer
     usecase "Gérer l'abonnement" as Gerer
     usecase "Emprunter un livre physique" as Emprunter
@@ -30,7 +31,6 @@ rectangle "OmniLib"{
     usecase "Acheter" as Acheter
     usecase "Télécharger un E-book" as Telecharger
     usecase "Louer une VOD" as Louer
-    usecase "Bloquer l'action" as Bloquer
     usecase "Mettre à jour le catalogue" as MettreAJour
     usecase "Valider les retours de livres" as Valider 
 }
@@ -52,10 +52,7 @@ AdherantStandard --- Gerer
 AdherantPremium --- Telecharger
 AdherantPremium --- Louer
 Reserver <-.- Livraison : <<extends>>
-Louer <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
-Telecharger <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
-Emprunter <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
-Livraison <-right.- Bloquer : <<extends>>\n condition:{pénalité de retard}
+Identifier <-.- Creer : <<extends>>
 Livraison -left.-> Acheter : <<include>>
 Acheter --- Transporteur
 Acheter --- Banque
@@ -121,7 +118,7 @@ classDiagram
     Personne --o Bibliotheque
     Bibliotheque --> Adherent : bloque, livre
     Personne <|-- Bibliothecaire
-    Adherent --|> AdherentPremium
+    Adherent <|-- AdherentPremium
     Adherent --> Article : emprunte (jusqu'à une date)
     Bibliotheque o-- Article : met à disposition
     ArticlePhysique --|> Article
