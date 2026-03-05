@@ -29,7 +29,7 @@ rectangle "OmniLib"{
     usecase "Se faire livrer à domicile" as Livraison
     usecase "Acheter" as Acheter
     usecase "Télécharger un E-book" as Telecharger
-    usecase "Location de VOD" as Location
+    usecase "Louer une VOD" as Louer
     usecase "Bloquer l'action" as Bloquer
     usecase "Mettre à jour le catalogue" as MettreAJour
     usecase "Valider les retours de livres" as Valider 
@@ -50,9 +50,9 @@ AdherantStandard --- Emprunter
 AdherantStandard --- Reserver
 AdherantStandard --- Gerer
 AdherantPremium --- Telecharger
-AdherantPremium --- Location
+AdherantPremium --- Louer
 Reserver <-.- Livraison : <<extends>>
-Location <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
+Louer <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
 Telecharger <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
 Emprunter <-.- Bloquer : <<extends>>\n condition:{pénalité de retard}
 Livraison <-right.- Bloquer : <<extends>>\n condition:{pénalité de retard}
